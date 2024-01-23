@@ -4,11 +4,6 @@ import { AsyncComponent, defineAsyncComponent } from 'vue'
 
 const plugins = [
   {
-    kebabName: 'xmas-kelheim',
-    filePatterns: ['**/xmas-kelheim*.y?(a)ml'],
-    component: defineAsyncComponent(() => import('./xmas-kelheim/VehicleAnimation.vue')),
-  },
-  {
     kebabName: 'x-y-t',
     filePatterns: ['**/viz-xyt-*.y?(a)ml', '**/*xyt.csv?(.gz)'],
     component: defineAsyncComponent(() => import('./xy-time/XyTime.vue')),

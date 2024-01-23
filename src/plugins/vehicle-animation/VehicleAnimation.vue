@@ -179,7 +179,7 @@ const MyComponent = defineComponent({
         title: '',
         description: '',
         thumbnail: '',
-        center: [13.45, 52.5],
+        center: [-122, 37.3],
         zoom: 10,
         mapIsIndependent: false,
         theme: '',

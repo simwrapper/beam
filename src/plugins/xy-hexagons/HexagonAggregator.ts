@@ -45,7 +45,7 @@ export function pointToHexbin(props: any, aggregationParams: any) {
   // up when we move the map.
   // The hexagons should stay static regardless of the camera position.
   // // const centerLngLat = data.length ? getPointsCenter(data, aggregationParams, center) : null
-  const centerLngLat = data.length ? [14, 52] : null
+  const centerLngLat = data.length ? [-122, 37.3] : null
   const radiusCommon = getRadiusInCommon(radius, viewport, centerLngLat)
 
   // add world space coordinates to points

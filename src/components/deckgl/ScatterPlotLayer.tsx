@@ -10,7 +10,7 @@ function App({ data = [], initialView = {} as any }) {
   const layer = new ScatterplotLayer({
     id: 'scatterplot-layer',
     coordinateSystem: COORDINATE_SYSTEM.METER_OFFSETS,
-    coordinateOrigin: [13.5, 52.6, 0],
+    coordinateOrigin: [-122, 37.3, 0],
     data,
     pickable: true,
     opacity: 0.8,
