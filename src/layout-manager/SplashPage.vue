@@ -12,7 +12,7 @@
             //- img(v-if="state.isDarkMode" src="@/assets/simwrapper-logo/SW_logo_yellow.png")
             //- img(v-else src="@/assets/simwrapper-logo/SW_logo_purple.png")
 
-        .tagline The transport simulation data visualizer from TU Berlin.
+        .tagline Visualization for the VTA-BEAM simulation platform
 
     //- DATA SOURCES -------------------------------------------------------------------
     .diagonal.data-area

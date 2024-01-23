@@ -59,14 +59,6 @@ let fileSystems: FileSystemConfig[] = [
   // End. Below here, these are editable:
 
   {
-    name: 'VSP Public-SVN',
-    slug: 'public',
-    description: 'Public data at TU Berlin',
-    baseURL: 'https://svn.vsp.tu-berlin.de/repos/public-svn/matsim/scenarios/countries',
-    thumbnail: '/simwrapper/images/thumb-chart.jpg',
-    skipList: ['episim/battery'],
-  },
-  {
     name: 'Examples',
     slug: 'examples',
     description: 'Pre-built SimWrapper dashboards',
@@ -89,35 +81,6 @@ let fileSystems: FileSystemConfig[] = [
     baseURL: 'https://svn.vsp.tu-berlin.de/repos/public-svn/shared/billy/simwrapper/sample-data',
     hidden: true,
     example: true,
-  },
-  {
-    name: 'KoMoDnext',
-    slug: 'komodnext',
-    description: 'Automated driving in the digital test field, Düsseldorf',
-    description_de: 'Automatisiertes Fahren im digitalen Testfeld Düsseldorf',
-    baseURL:
-      'https://svn.vsp.tu-berlin.de/repos/public-svn/matsim/scenarios/countries/de/duesseldorf/projects/komodnext/website',
-    thumbnail: '/simwrapper/images/thumb-localfiles.jpg',
-    hidden: true,
-  },
-  {
-    name: 'RealLabHH',
-    slug: 'reallabhh',
-    description: 'Hamburg, Germany',
-    description_de: 'Hamburg, Deutschland',
-    baseURL:
-      'https://svn.vsp.tu-berlin.de/repos/public-svn/matsim/scenarios/countries/de/hamburg/hamburg-v2/hamburg-v2.2/viz',
-    thumbnail: '/simwrapper/images/thumb-localfiles.jpg',
-    example: true,
-  },
-  {
-    name: 'BENE',
-    slug: 'bene',
-    description: 'Berlin BENE',
-    baseURL:
-      'https://svn.vsp.tu-berlin.de/repos/public-svn/matsim/scenarios/countries/de/berlin/projects/bene/website',
-    thumbnail: '/simwrapper/images/thumb-localfiles.jpg',
-    hidden: true,
   },
 ]
 
