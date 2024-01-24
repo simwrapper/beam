@@ -1,6 +1,5 @@
 <template lang="pug">
-.gl-app(:class="{'hide-thumbnail': !thumbnail}"
-        :style='{"background": urlThumbnail}' oncontextmenu="return false")
+.gl-app(:class="{'hide-thumbnail': !thumbnail}" oncontextmenu="return false")
 
   trip-viz.anim(v-if="!thumbnail"
                 :center = "vizDetails.center"
@@ -18,42 +17,27 @@
 
   zoom-buttons(v-if="!thumbnail")
 
-  //- isLoaded && !thumbnail")
   .right-side(v-if="isLoaded && !thumbnail")
     collapsible-panel(direction="right")
       .big.clock
-        p {{ myState.clock }}
+          p {{ myState.clock }}
 
       .panel-items
-        legend-colors.legend-block(v-if="legendItems.length"
-          :title="`${$t('passengers')}:`" :items="legendItems")
-
-        legend-colors.legend-block(:title="`${$t('requests')}:`" :items="legendRequests")
-
-        .search-panel
-          p.speed-label(:style="{margin: '1rem 0 0 0'}") {{ $t('search') }}
-          form(autocomplete="off")
-          .field
-            p.control.has-icons-left
-              input.input.is-small(type="email" :placeholder="`${$t('search')}...`" v-model="searchTerm")
-              span.icon.is-small.is-left
-                i.fas.fa-search
-
         settings-panel.settings-area(:items="SETTINGS" @click="handleSettingChange")
 
         .speed-block
-          p.speed-label {{ $t('speed') }}:
+          p.speed-label {{ $t('speed') }}
             br
             | {{ speed }}x
 
-          b-slider.speed-slider(v-model="speed"
+          b-slider.speed-slider(
+            v-model="speed"
             :min="speedStops[0]"
             :max="speedStops[speedStops.length-1]"
             :duration="0"
             :dotSize="20"
             :tooltip="true"
-            tooltip-placement="bottom"
-            :tooltip-formatter="val => val + 'x'"
+            tooltip-placement="none"
           )
             template(v-for="val in speedStops")
               b-slider-tick(:value="val" :key="val")
@@ -64,7 +48,9 @@
       :timeStart = "timeStart"
       :timeEnd = "timeEnd"
       :isRunning = "myState.isRunning"
-      :currentTime = "simulationTime")
+      :currentTime = "simulationTime"
+  )
+
 
 </template>
 
@@ -139,6 +125,7 @@ const MyComponent = defineComponent({
   props: {
     root: { type: String, required: true },
     subfolder: { type: String, required: true },
+    configFromDashboard: { type: Object, required: false },
     yamlConfig: String,
     thumbnail: Boolean,
   },
@@ -215,7 +202,7 @@ const MyComponent = defineComponent({
       requestEnd: {} as crossfilter.Dimension<any, any>,
       requestVehicle: {} as crossfilter.Dimension<any, any>,
 
-      simulationTime: 5 * 3600, // 8 * 3600 + 10 * 60 + 10
+      simulationTime: 9 * 3600, // 8 * 3600 + 10 * 60 + 10
 
       timeElapsedSinceLastFrame: 0,
 
@@ -232,7 +219,6 @@ const MyComponent = defineComponent({
 
       legendBits: [] as any[],
       isEmbedded: false,
-      thumbnailUrl: "url('assets/thumbnail.jpg') no-repeat;",
 
       vehicleLookup: [] as string[],
       vehicleLookupString: {} as { [id: string]: number },
@@ -255,9 +241,6 @@ const MyComponent = defineComponent({
       return svnProject[0]
     },
 
-    urlThumbnail(): string {
-      return this.thumbnailUrl
-    },
     textColor(): any {
       const lightmode = {
         text: '#3498db',
@@ -338,21 +321,26 @@ const MyComponent = defineComponent({
 
     async getVizDetails() {
       // first get config
-      try {
-        // might be a project config:
-        const filename =
-          this.myState.yamlConfig.indexOf('/') > -1
-            ? this.myState.yamlConfig
-            : this.myState.subfolder + '/' + this.myState.yamlConfig
 
-        const text = await this.fileApi.getFileText(filename)
-        this.vizDetails = YAML.parse(text)
-      } catch (err) {
-        console.log('failed')
-        const e = err as any
-        // maybe it failed because password?
-        if (this.fileSystem.needPassword && e.status === 401) {
-          globalStore.commit('requestLogin', this.fileSystem.slug)
+      if (this.configFromDashboard)
+        this.vizDetails = JSON.parse(JSON.stringify(this.configFromDashboard))
+      else {
+        try {
+          // might be a project config:
+          const filename =
+            this.myState.yamlConfig.indexOf('/') > -1
+              ? this.myState.yamlConfig
+              : this.myState.subfolder + '/' + this.myState.yamlConfig
+
+          const text = await this.fileApi.getFileText(filename)
+          this.vizDetails = YAML.parse(text)
+        } catch (err) {
+          console.log('failed')
+          const e = err as any
+          // maybe it failed because password?
+          if (this.fileSystem.needPassword && e.status === 401) {
+            globalStore.commit('requestLogin', this.fileSystem.slug)
+          }
         }
       }
 
@@ -372,24 +360,6 @@ const MyComponent = defineComponent({
       // title
       const t = this.vizDetails.title ? this.vizDetails.title : 'Agent Animation'
       this.$emit('title', t)
-
-      this.buildThumbnail()
-    },
-
-    async buildThumbnail() {
-      if (this.thumbnail && this.vizDetails.thumbnail) {
-        try {
-          const blob = await this.fileApi.getFileBlob(
-            this.myState.subfolder + '/' + this.vizDetails.thumbnail
-          )
-          const buffer = await readBlob.arraybuffer(blob)
-          const base64 = arrayBufferToBase64(buffer)
-          if (base64)
-            this.thumbnailUrl = `center / cover no-repeat url(data:image/png;base64,${base64})`
-        } catch (e) {
-          console.error(e)
-        }
-      }
     },
 
     handleClick(vehicleNumber: any) {
@@ -816,14 +786,15 @@ export default MyComponent
 }
 
 .right-side {
-  width: 11rem;
+  position: relative;
   grid-area: rightside;
+  width: 11rem;
   display: flex;
   flex-direction: column;
   font-size: 0.8rem;
   pointer-events: auto;
   margin-top: auto;
-  margin-bottom: 35px;
+  margin-left: auto;
   z-index: 5;
 }
 
@@ -831,7 +802,7 @@ export default MyComponent
   grid-area: playback;
   display: flex;
   flex-direction: row;
-  margin-top: auto;
+  margin-top: 1rem;
   margin-bottom: 35px;
   padding: 0.5rem 1rem;
   pointer-events: auto;
@@ -843,12 +814,12 @@ export default MyComponent
   pointer-events: auto;
   font-size: 0.8rem;
   padding: 0.25rem 0;
-  margin: 1.5rem 0rem 0 0;
+  margin: 0.5rem 0rem 0 0;
 }
 
 .anim {
   grid-column: 1 / 3;
-  grid-row: 1 / 7;
+  grid-row: 1 / 3;
   pointer-events: auto;
 }
 

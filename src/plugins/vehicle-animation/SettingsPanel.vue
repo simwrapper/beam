@@ -1,7 +1,5 @@
 <template lang="pug">
 .settings-panel-content
-  h4 {{ $t('showhide')}}
-
   .row(:key="label" v-for="label in Object.keys(items)")
     toggle-button.toggle(
       :width="40"

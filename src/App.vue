@@ -171,9 +171,7 @@ export default defineComponent({
     // theme
     const theme = localStorage.getItem('colorscheme')
       ? localStorage.getItem('colorscheme')
-      : (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)')).matches
-      ? ColorScheme.DarkMode
-      : ColorScheme.LightMode
+      : ColorScheme.DarkMode
 
     if (theme === ColorScheme.LightMode) this.$store.commit('rotateColors')
 

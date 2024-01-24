@@ -588,7 +588,7 @@ const MyComponent = defineComponent({
           longitude: this.vizDetails.center[0],
           latitude: this.vizDetails.center[1],
           bearing: 0,
-          pitch: 0,
+          pitch: 20,
           zoom: this.vizDetails.zoom || 10, // use 10 default if we don't have a zoom
           jump: false, // move the map no matter what
         }

@@ -22,6 +22,7 @@ export const panelLookup: { [key: string]: AsyncComponent } = {
   text: defineAsyncComponent(() => import('./text.vue')),
   tile: defineAsyncComponent(() => import('./tile.vue')),
   transit: defineAsyncComponent(() => import('./transit.vue')),
+  vehicles: defineAsyncComponent(() => import('./vehicles.vue')),
   vega: defineAsyncComponent(() => import('./vega.vue')),
   video: defineAsyncComponent(() => import('./video.vue')),
   xml: defineAsyncComponent(() => import('./xml.vue')),
