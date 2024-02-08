@@ -140,7 +140,8 @@ export default function Component(props: {
         <big>
           <b>{vehicleId}</b>
         </big>
-        <div>Passagiere: {object.occ} </div>
+        {/* <div>Category: {object.occ}</div> */}
+        <div>tba</div>
       </div>
     )
   }
@@ -157,7 +158,7 @@ export default function Component(props: {
         getTimeStart: (d: any) => d.t0,
         getTimeEnd: (d: any) => d.t1,
         getColor: (d: any) => props.colors[d.occ],
-        getWidth: 1, // (d: any) => 3.0 * (d.occ + 1) - 1,
+        getWidth: 3, // (d: any) => 3.0 * (d.occ + 1) - 1,
         opacity: 0.7,
         widthMinPixels: 2,
         rounded: false,
@@ -184,7 +185,7 @@ export default function Component(props: {
         getColor: (d: any) => props.colors[d.occ],
         iconMoving: 'vehicle',
         iconStill: 'diamond',
-        getSize: searchEnabled ? 72 : 54,
+        getSize: searchEnabled ? 96 : 84,
         opacity: 1.0,
         currentTime: simulationTime,
         shadowEnabled: false,

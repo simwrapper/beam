@@ -471,7 +471,8 @@ p.splash-label {
   h4,
   h5,
   h6 {
-    font-weight: normal;
+    font-weight: bold;
+    margin-top: 1rem;
   }
 
   ul {

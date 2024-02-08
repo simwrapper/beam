@@ -68,7 +68,7 @@ const i18n = {
     },
     de: {
       requests: 'DRT Anfragen',
-      passengers: 'Passagiere',
+      passengers: '',
       search: 'Suche',
       showhide: 'Ein-/Ausblenden',
       vehicles: 'DRT Fahrzeuge',
@@ -184,8 +184,8 @@ const MyComponent = defineComponent({
         data: [] as any[],
       },
 
-      timeStart: 0,
-      timeEnd: 86400,
+      timeStart: 0, // 6.5 * 3600,
+      timeEnd: 100400,
 
       traces: crossfilter([]) as crossfilter.Crossfilter<any>,
       traceStart: {} as crossfilter.Dimension<any, any>,
@@ -215,7 +215,7 @@ const MyComponent = defineComponent({
       showHelp: false,
 
       speedStops: [-20, -10, -5, -2, -1, -0.5, -0.25, 0, 0.25, 0.5, 1, 2, 5, 10, 20],
-      speed: 10,
+      speed: 5,
 
       legendBits: [] as any[],
       isEmbedded: false,
@@ -802,8 +802,8 @@ export default MyComponent
   grid-area: playback;
   display: flex;
   flex-direction: row;
-  margin-top: 1rem;
-  margin-bottom: 35px;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
   padding: 0.5rem 1rem;
   pointer-events: auto;
   width: 100%;

@@ -1,5 +1,10 @@
 <template lang="pug">
 .slider-thingy
+  .buttons
+    .playpause(@click='toggleSimulation')
+      i.button-icon.fa.fa-1x.fa-pause(v-if="isRunning")
+      i.button-icon.fa.fa-1x.fa-play(v-else)
+
   b-slider.slider(
     v-model="sliderValue"
     v-bind="sliderOptions"
@@ -7,11 +12,6 @@
     @dragging="dragging"
     @dragstart="dragStart"
     @dragend="dragEnd")
-
-  .buttons
-    .playpause(@click='toggleSimulation')
-      i.button-icon.fa.fa-1x.fa-pause(v-if="isRunning")
-      i.button-icon.fa.fa-1x.fa-play(v-else)
 
 </template>
 
@@ -115,13 +115,13 @@ export default defineComponent({
 }
 
 .slider {
-  margin: auto 0;
+  margin: auto 1rem auto 0;
   flex: 1;
   font-weight: bold;
 }
 
 .buttons {
-  margin: 0 0 0 2rem;
+  margin: 0 2rem 0 0;
 }
 
 .playpause {
