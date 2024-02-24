@@ -23,6 +23,13 @@
           p {{ myState.clock }}
 
       .panel-items
+        legend-colors.legend-block(
+          v-if="legendItems.length"
+          title="Occupancy"
+          :items="legendItems"
+        )
+
+      .panel-items
         settings-panel.settings-area(:items="SETTINGS" @click="handleSettingChange")
 
         .speed-block
@@ -131,17 +138,16 @@ const MyComponent = defineComponent({
   },
   data: () => {
     const COLOR_OCCUPANCY = {
-      0: [140, 140, 160],
+      // 0: [140, 140, 160],
       1: [85, 255, 85],
       2: [255, 255, 85],
       3: [240, 110, 30],
-      4: [192, 30, 50],
+      '4+': [192, 30, 50],
     } as any
 
     const SETTINGS = {
       vehicles: true,
       routes: true,
-      requests: false,
     } as any
 
     return {
@@ -215,7 +221,7 @@ const MyComponent = defineComponent({
       showHelp: false,
 
       speedStops: [-20, -10, -5, -2, -1, -0.5, -0.25, 0, 0.25, 0.5, 1, 2, 5, 10, 20],
-      speed: 5,
+      speed: 2,
 
       legendBits: [] as any[],
       isEmbedded: false,
