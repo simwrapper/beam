@@ -62,6 +62,7 @@ export default function Component(props: {
   vehicleLookup: string[]
   searchEnabled: boolean
   onClick: any
+  bgLayers: any[]
 }) {
   const {
     simulationTime,
@@ -75,6 +76,7 @@ export default function Component(props: {
     searchEnabled,
     onClick,
     viewId,
+    bgLayers,
   } = props
 
   const theme = DEFAULT_THEME
@@ -101,7 +103,8 @@ export default function Component(props: {
   const arcWidth = 1
   const [hoverInfo, setHoverInfo] = useState({} as any)
 
-  const layers: any = []
+  let layers: any = []
+  if (bgLayers) layers = [...bgLayers]
 
   function handleClick() {
     console.log(hoverInfo)

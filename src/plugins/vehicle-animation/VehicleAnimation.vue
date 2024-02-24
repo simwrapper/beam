@@ -13,7 +13,9 @@
                 :traces = "$options.traces"
                 :vehicleLookup = "vehicleLookup"
                 :viewId = "viewId"
-                :onClick = "handleClick")
+                :onClick = "handleClick"
+                :bgLayers = "bgLayers"
+  )
 
   zoom-buttons(v-if="!thumbnail")
 
@@ -92,6 +94,7 @@ import { ToggleButton } from 'vue-js-toggle-button'
 import readBlob from 'read-blob'
 import YAML from 'yaml'
 import crossfilter from 'crossfilter2'
+import { GeoJsonLayer } from '@deck.gl/layers'
 import { blobToArrayBuffer, blobToBinaryString } from 'blob-util'
 
 import globalStore from '@/store'
@@ -176,6 +179,7 @@ const MyComponent = defineComponent({
         zoom: 10,
         mapIsIndependent: false,
         theme: '',
+        layers: {} as any,
       },
 
       myState: {
@@ -189,6 +193,8 @@ const MyComponent = defineComponent({
         thumbnail: false,
         data: [] as any[],
       },
+
+      bgLayers: [] as any[],
 
       timeStart: 0, // 6.5 * 3600,
       timeEnd: 100400,
@@ -607,6 +613,56 @@ const MyComponent = defineComponent({
       return crossfilter(traces)
     },
 
+    async loadBgLayers() {
+      // Service-Area Layer
+      try {
+        if (this.vizDetails.layers.servicearea) {
+          const geojson = await this.fileApi.getFileJson(
+            this.myState.subfolder + '/' + this.vizDetails.layers.servicearea
+          )
+
+          const layer = new GeoJsonLayer({
+            id: 'serviceAreaLayer',
+            data: geojson.features,
+            getFillColor: [10, 96, 128, 255],
+            opacity: 0.1,
+            pickable: false,
+            filled: true,
+          }) as any
+
+          this.bgLayers.push(layer)
+        }
+      } catch (e) {
+        console.error(e)
+        this.myState.statusMessage = '' + e
+      }
+
+      // Stops Layer
+      try {
+        if (this.vizDetails.layers.stops) {
+          const geojson = await this.fileApi.getFileJson(
+            this.myState.subfolder + '/' + this.vizDetails.layers.stops
+          )
+
+          const layer = new GeoJsonLayer({
+            id: 'stopsLayer',
+            data: geojson.features,
+            getFillColor: [255, 64, 200, 255],
+            getPointRadius: 30,
+            opacity: 1,
+            pickable: false,
+            filled: true,
+            pointRadiusUnits: 'meters',
+          }) as any
+
+          this.bgLayers.push(layer)
+        }
+      } catch (e) {
+        console.error(e)
+        this.myState.statusMessage = '' + e
+      }
+    },
+
     async loadFiles() {
       let trips: any[] = []
       let drtRequests: any = []
@@ -669,7 +725,9 @@ const MyComponent = defineComponent({
 
     this.setWallClock()
 
-    this.myState.statusMessage = '/ Dateien laden...'
+    this.loadBgLayers() // async
+
+    this.myState.statusMessage = '/ Loading data...'
     console.log('loading files')
     const { trips, drtRequests } = await this.loadFiles()
 

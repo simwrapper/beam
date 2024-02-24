@@ -79,13 +79,13 @@ import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 
 import { ToggleButton } from 'vue-js-toggle-button'
+import { GeoJsonLayer } from '@deck.gl/layers'
 import YAML from 'yaml'
 
 import util from '@/js/util'
 import globalStore from '@/store'
-import { REACT_VIEW_HANDLES } from '@/Globals'
-
 import HTTPFileSystem from '@/js/HTTPFileSystem'
+import { REACT_VIEW_HANDLES } from '@/Globals'
 
 import CSVParserWorker from './CsvGzipParser.worker.ts?worker'
 import CollapsiblePanel from '@/components/CollapsiblePanel.vue'
@@ -124,6 +124,7 @@ interface VizDetail {
   center: any
   zoom: number
   mapIsIndependent?: boolean
+  layers: any
 }
 
 const MyComponent = defineComponent({
@@ -160,6 +161,7 @@ const MyComponent = defineComponent({
         zoom: 9,
         mapIsIndependent: false,
       },
+      bgLayers: [] as any[],
       YAMLrequirementsXY: { file: '', aggregations: {} },
       colorRamps,
       buttonColors: ['#5E8AAE', '#BF7230', '#269367', '#9C439C'],
@@ -179,6 +181,7 @@ const MyComponent = defineComponent({
         maxHeight: 0,
         center: null as any,
         zoom: 9,
+        layers: {} as any,
       } as VizDetail,
       myState: {
         statusMessage: '',
@@ -249,6 +252,7 @@ const MyComponent = defineComponent({
         selectedHexStats: this.hexStats,
         upperPercentile: 100,
         onClick: this.handleClick,
+        bgLayers: this.bgLayers,
       }
     },
     textColor(): any {
@@ -449,6 +453,7 @@ const MyComponent = defineComponent({
         maxHeight: this.vizDetails.maxHeight,
         center: this.vizDetails.center,
         zoom: this.vizDetails.zoom,
+        layers: {},
       }
       this.$emit('title', this.vizDetails.title)
       // this.solveProjection()
@@ -710,7 +715,33 @@ const MyComponent = defineComponent({
         })
       }
     },
+
+    async loadBgLayers() {
+      // Service-Area Layer
+      try {
+        if (this.vizDetails.layers.servicearea) {
+          const geojson = await this.fileApi.getFileJson(
+            this.myState.subfolder + '/' + this.vizDetails.layers.servicearea
+          )
+
+          const layer = new GeoJsonLayer({
+            id: 'serviceAreaLayer',
+            data: geojson.features,
+            getFillColor: [10, 96, 128, 255],
+            opacity: 0.1,
+            pickable: false,
+            filled: true,
+          }) as any
+
+          this.bgLayers.push(layer)
+        }
+      } catch (e) {
+        console.error(e)
+        this.myState.statusMessage = '' + e
+      }
+    },
   },
+
   async mounted() {
     this.$store.commit('setFullScreen', !this.thumbnail)
 
@@ -726,6 +757,8 @@ const MyComponent = defineComponent({
 
     this.myState.statusMessage = `${this.$i18n.t('loading')}`
     this.aggregations = this.vizDetails.aggregations
+
+    this.loadBgLayers() // async
 
     // console.log('loading files')
     await this.loadFiles()

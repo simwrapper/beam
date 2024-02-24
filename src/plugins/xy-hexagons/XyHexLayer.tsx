@@ -31,6 +31,7 @@ export default function Layer({
   selectedHexStats = { rows: 0, numHexagons: 0, selectedHexagonIds: [] },
   upperPercentile = 100,
   onClick = {} as any,
+  bgLayers = [] as any[],
 }) {
   // manage SimWrapper centralized viewState - for linked maps
   const [viewState, setViewState] = useState(globalStore.state.viewState)
@@ -104,7 +105,10 @@ export default function Layer({
     }
   }
 
-  const layers = [
+  let layers: any = []
+  if (bgLayers) layers = [...bgLayers]
+
+  layers.push(
     new ArcLayer({
       id: 'arc-layer',
       data: highlights,
@@ -116,7 +120,10 @@ export default function Layer({
       getWidth: 1,
       getSourceColor: dark ? [144, 96, 128] : [192, 192, 240],
       getTargetColor: dark ? [144, 96, 128] : [192, 192, 240],
-    }),
+    })
+  )
+
+  layers.push(
     new HexagonLayer({
       id: 'hexlayer',
       data: rows,
@@ -138,8 +145,8 @@ export default function Layer({
         elevationScale: { type: 'interpolation', duration: 1000 },
         opacity: { type: 'interpolation', duration: 200 },
       },
-    }),
-  ]
+    })
+  )
 
   return (
     <DeckGL
