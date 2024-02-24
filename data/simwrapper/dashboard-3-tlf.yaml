@@ -1,0 +1,16 @@
+header:
+  title: ''
+  tab: TLF
+  fullscreen: true
+  triggerPattern: drt-tlf.csv
+
+layout:
+  'TLF':
+  - type: bar
+    title: Trip Length Frequency
+    dataset: drt-tlf.csv
+    x: miles
+    useLastRow: false
+    xAxisName: Miles
+    yAxisName: Trips
+

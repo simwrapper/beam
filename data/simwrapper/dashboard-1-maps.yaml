@@ -1,0 +1,39 @@
+header:
+  title: ''
+  tab: 'Maps'
+  fullscreen: true
+  hidefiles: true
+  triggerPattern: drt-xy.csv
+
+layout:
+  row1:
+    - type: 'hexagons'
+      title: 'Start/End Points'
+      file: drt-xy.csv
+      projection: EPSG:4326
+      center: [-122, 37.4]
+      zoom: 9
+      radius: 500
+      maxHeight: 0
+      pitch: 40
+      layers:
+        servicearea: service-area.geojson
+      aggregations:
+        'Trip Start/End':
+          - title: Start
+            x: start_lon
+            y: start_lat
+          - title: End
+            x: end_lon
+            y: end_lat
+
+    - type: 'vehicles'
+      title: 'VTA Shuttle Paths'
+      description: 'VTA Shuttle OffPeak'
+      drtTrips: drt-vehicles.json
+      center: [-122, 37.4]
+      zoom: 9
+      layers:
+        servicearea: service-area.geojson
+        stops: stops.geojson
+

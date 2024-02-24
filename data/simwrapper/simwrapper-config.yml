@@ -1,0 +1,102 @@
+# SIMWRAPPER-CONFIG.YAML --------------------------
+# Place this file in a run folder or in a ".simwrapper" folder for project-wide
+# settings that will be propagated to ALL SUBFOLDERS.
+# Useful for defining project-wide layout and configuration
+
+# ######################################################################################
+# GENERAL SETTINGS
+
+# Show or completely hide the left-side navigation bar and (restore button too!)
+# This will be -ignored- if you define your own leftNavBar below
+hideLeftBar: true
+
+# Show/hide the folder name and breadcrumbs at the top of each dashboard
+hideBreadcrumbs: true
+
+# Show/hide the "Files" section from the right-side dashboard section selector
+hideFiles: true
+
+# Expand dashboards to full width of window; false: center in window instead
+fullWidth: true
+
+# WIP: Force light/dark theme (currently broken)
+# This will be honored initially but user can override it if they really want to
+theme: dark
+
+# Custom CSS which affects entire site.
+# Generally, use style tags below if possible, instead of custom CSS.
+# css: custom.css
+
+# Custom header -- discouraged. Use "topNavBar" below instead. DE/EN optional
+# header: header.md
+# header_en: header.md
+# header_de: header.md
+
+# Custom footer markdown. Shown on NON-fullscreen dashboards. DE/EN optional
+# footer: footer.md
+# footer_en: footer.md
+# footer_de: footer.md
+
+# ######################################################################################
+# TOP NAV BAR topNavBar
+#
+# If topNavBar is defined, a navigation strip across the top of the website is built.
+#
+# topNavBar can have "style", "logo", "left", and "right" sections defined (all optional)
+# - style sets the background etc for the nav bar
+# - logo is always upper-left. Use "maxHeight" in style section to set its size
+# - left and right sections contain navigation text/urls and possibly dropdowns.
+#
+# Most elements can include an optional "style:" section for CSS overrides.
+# Use any regular CSS in camelCase, e.g. "fontWeight: bold" or "marginBottom: 4px"
+#
+
+topNavBar:
+  style:
+    backgroundColor: '#1D4993' # hex codes or CSS color names allowed
+    #   backgroundImage: "linear-gradient(to right, #F8A82D, #B01515)"
+    # Text color is chosen for plain backgroundColors automatically; force light/dark text here:
+    # useDarkText: true
+
+  # Optional logo will always be shown in the upper-left "brand" area
+  logo:
+    image: 'https://simwrapper.github.io/beam/vta-logo.png'
+    style:
+      backgroundColor: '#fff'
+      padding: '2px 4px'
+      maxHeight: '3.25rem'
+
+  # Left section is left-justified next to the optional logo.
+  # Each element should have "text", optional "url" link, optional "style".
+  # Each element can also have "dropdown:" array of dropdown text/url items
+  left:
+    - text: 'VTA BEAM'
+      url: ./start
+      style:
+        fontWeight: bold
+        fontSize: 16px
+      #      url: ./base-case
+
+  # Right section is right-justified to edge of window
+  # Each element should have "text", optional "url" link, optional "style".
+  # Each element can also have "dropdown:" array of dropdown text/url items
+  right:
+    - text: 'Berryessa S2S'
+      url: ./vta-scen_30pct_Berryessa_S2S_updated__2024-01-17_21-46-26_wug
+    - text: 'Campbell SRS'
+      url: ./vta-scen_30pct_Campbell_S2S_updated__2024-01-17_15-40-54_njj
+    - text: 'East Sunnyvale S2S'
+      url: ./vta-scen_30pct_East_Sunnyvale_S2S_updated__2024-01-18_09-53-53_cls
+    - text: 'Evergreen S2S'
+      url: ./vta-scen_30pct_Evergreen_S2S_updated__2024-01-17_09-22-39_kok
+    - text: 'Gilroy S2S'
+      url: ./vta-scen_30pct_Gilroy_S2S_updated__2024-01-16_23-09-13_rnp
+    - text: 'Flex S2S'
+      url: ./vta-val_30pct_Flex_S2S_updated__2024-01-23_12-38-16_fba
+#    - text: 'About'
+#      dropdown:
+#        - text: DRT Outskirts
+#          url: ./drt-outskirts
+#        - text: DRT Entire city
+#          url: ./drt-whole-city
+

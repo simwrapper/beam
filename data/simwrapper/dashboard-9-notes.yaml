@@ -1,0 +1,12 @@
+header:
+  tab: Notes
+  title: ''
+  fullscreen: true
+  hidefiles: false
+  triggerPattern: readme.md
+  fullWidth: false
+
+layout:
+  row1:
+    - type: 'text'
+      file: readme.md

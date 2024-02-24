@@ -1,0 +1,24 @@
+header:
+  title: ''
+  tab: Activities
+  fullscreen: true
+  triggerPattern: drt-trips-by-*.csv
+
+layout:
+  'Activity Types':
+  - type: bar
+    title: S2S Trips by START Activity Type and Time of Day
+    dataset: drt-trips-by-start-activity-hour.csv
+    x: hour
+    xAxisName: Time of Day
+    yAxisName: 'Trips by Start Activity'
+    stacked: true
+
+  - type: bar
+    title: S2S Trips by END Activity Type and Time of Day
+    dataset: drt-trips-by-end-activity-hour.csv
+    x: hour
+    xAxisName: Time of Day
+    yAxisName: 'Trips by End Activity'
+    stacked: true
+

@@ -1,0 +1,7 @@
+title: 'VTA BEAM Demo'
+description: 'VTA Shuttle OffPeak'
+drtTrips: drt-vehicles.json
+center: [-122, 37.3]
+zoom: 10
+
+
