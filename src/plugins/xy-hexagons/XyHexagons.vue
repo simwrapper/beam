@@ -144,7 +144,7 @@ const MyComponent = defineComponent({
     thumbnail: Boolean,
   },
   data: () => {
-    const colorRamps = ['bathymetry', 'par', 'chlorophyll', 'magma']
+    const colorRamps = ['viridis', 'magma', 'bathymetry', 'chlorophyll']
     return {
       id: `id-${Math.floor(1e12 * Math.random())}` as any,
       standaloneYAMLconfig: {

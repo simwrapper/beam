@@ -59,7 +59,9 @@ export default function Layer({
     nshades: 10,
     format: 'rba',
     alpha: 1,
-  }).map((c: number[]) => [c[0], c[1], c[2]])
+  })
+    .map((c: number[]) => [c[0], c[1], c[2]])
+    .reverse()
 
   function getTooltip({ object }: any) {
     if (!object || !object.position || !object.position.length) {
